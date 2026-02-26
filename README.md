@@ -37,12 +37,7 @@ Este script de Bash proporciona una capa de seguridad adicional para servidores 
 6. **Ejecución en segundo plano:
    Para asegurar que la monitorización sea constante (24x7), se recomienda ejecutarlo como un servicio de systemd o mediante nohup:
    ```bash
-   sudo nohup ./fail-login-notifier.sh &
-   
-8. **Crea el archivo de log si no existe**:
-   ```bash
-   sudo touch /var/log/login_alert.log
-   sudo chmod 644 /var/log/login_alert.log
+   sudo nohup ./telegram_failes_login.sh &
 
 # 🛠️ Cómo obtener tu BOT_TOKEN y CHAT_ID
 1. **Crear un bot con @BotFather**
