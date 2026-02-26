@@ -1,43 +1,62 @@
-🛡️ SSH Fail Login Alert via Telegram
+# 🛡️ SSH Fail Login Alert via Telegram
+
 Este script de Bash proporciona una capa de seguridad adicional para servidores Linux mediante la monitorización en tiempo real de intentos fallidos de inicio de sesión por SSH. Cuando se detecta un fallo, el script extrae automáticamente la IP, el usuario y la ubicación geográfica del atacante, enviando una alerta instantánea a un bot de Telegram.
 
-✨ Características Principales
+![GitHub](https://img.shields.io/badge/Version-1.0-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+## ✨ Características Principales
+
 🔍 Monitorización Proactiva: Utiliza tail -F para analizar /var/log/auth.log sin consumir apenas recursos.
-
 🧠 Análisis Inteligente: Diferencia entre intentos con contraseña incorrecta (usuario existente) y usuarios inexistentes (ataques de fuerza bruta comunes).
-
 🌍 Geolocalización: Integra una consulta rápida a la API de ip-api para identificar el código de país del intruso.
-
 📱 Alertas con Formato: Notificaciones claras en Telegram utilizando Markdown para mejorar la legibilidad del operador.
 
-🛠️ Requisitos Técnicos
-Sistema operativo Linux (Debian/Ubuntu recomendado).
+## 📦 Requisitos
 
-Acceso de lectura a /var/log/auth.log (generalmente requiere privilegios de sudo).
+- Sistema operativo Linux (Debian/Ubuntu recomendado).
+- Acceso de lectura a /var/log/auth.log (generalmente requiere privilegios de sudo).
+- Dependencias básicas: curl, awk, grep.
+- Un bot de Telegram configurado.
 
-Dependencias básicas: curl, awk, grep.
+## 🚀 Instalación
 
-Un bot de Telegram configurado.
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/raul99po/FAIL-LOGIN-ALERT-TELEGRAM.git
+   cd FAIL-LOGIN-ALERT-TELEGRAM
+   
+2. **Edita el script con tu BOT_TOKEN y CHAT_ID**:
+   ```bash
+   nano telegram_failed_login.sh
 
-🚀 Instalación y Configuración
-Clonar el repositorio:
+4. **Dale permisos de ejecución**:
+   ```bash
+   chmod +x telegram_failed_login.sh
+   
+6. **Ejecución en segundo plano:
+   Para asegurar que la monitorización sea constante (24x7), se recomienda ejecutarlo como un servicio de systemd o mediante nohup:
+   ```bash
+   sudo nohup ./fail-login-notifier.sh &
+   
+8. **Crea el archivo de log si no existe**:
+   ```bash
+   sudo touch /var/log/login_alert.log
+   sudo chmod 644 /var/log/login_alert.log
 
-Bash
-git clone https://github.com/raul99po/FAIL-LOGIN-ALERT-TELEGRAM.git
-cd FAIL-LOGIN-ALERT-TELEGRAM
-Configurar credenciales:
-Edita el script e introduce tu TOKEN y CHAT_ID obtenidos de @BotFather.
+# 🛠️ Cómo obtener tu BOT_TOKEN y CHAT_ID
+1. **Crear un bot con @BotFather**
+  Habla con @BotFather
+  Envía /newbot y sigue los pasos.
+  Guarda el TOKEN que te da.
 
-Asignar permisos de ejecución:
+2. **Obtener tu CHAT_ID**
+Habla con tu bot (envía cualquier mensaje)
+Luego ve a:
+https://api.telegram.org/bot<BOT_TOKEN>/getUpdates
+Busca tu id en "chat":{"id":XXXXXXXX}
 
-Bash
-chmod +x fail-login-notifier.sh
-Ejecución en segundo plano:
-Para asegurar que la monitorización sea constante (24x7), se recomienda ejecutarlo como un servicio de systemd o mediante nohup:
-
-Bash
-sudo nohup ./fail-login-notifier.sh &
-📋 Ejemplo de Alerta
+# 📋 Ejemplo de Alerta
 Cuando el script detecta un intruso, recibirás un mensaje como este:
 
 🕵️ INTRUSO DETECTADO 🕵️
@@ -48,6 +67,5 @@ Cuando el script detecta un intruso, recibirás un mensaje como este:
 
 Monitorizando en tiempo real...
 
-🔐 Seguridad y Buenas Prácticas
-[!IMPORTANT]
-Recordatorio de Seguridad: Para entornos de producción, es altamente recomendable no dejar las credenciales hardcodeadas en el script. Se sugiere el uso de un archivo .env o variables de entorno del sistema para proteger el BOT_TOKEN y el CHAT_ID.
+## 🔐 Seguridad
+No publiques tu BOT_TOKEN ni CHAT_ID en GitHub. Usa variables de entorno o un archivo .env si vas a subirlo públicamente.
