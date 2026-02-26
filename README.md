@@ -37,7 +37,7 @@ Este script de Bash proporciona una capa de seguridad adicional para servidores 
 6. **Ejecución en segundo plano:
    Para asegurar que la monitorización sea constante (24x7), se recomienda ejecutarlo como un servicio de systemd o mediante nohup:
    ```bash
-   sudo nohup ./telegram_failes_login.sh &
+   sudo nohup ./telegram_failed_login.sh &
 
 # 🛠️ Cómo obtener tu BOT_TOKEN y CHAT_ID
 1. **Crear un bot con @BotFather**
