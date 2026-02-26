@@ -4,15 +4,12 @@ TOKEN="<BOT_TOKEN>"
 CHAT_ID="<CHAT_ID>"
 LOG_FILE="/var/log/auth.log"
 
-
-# grep filtra solo las líneas de contraseña fallida y se asegura de que el buffer salga inmediato (--line-buffered)
 tail -Fn0 "$LOG_FILE" | grep --line-buffered "Failed password" | while read line; do
 
     # 1. Extraer la IP (busca patrón numérico)
     IP=$(echo "$line" | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
 
     # 2. Extraer el Usuario
-    # Truco: Si dice "invalid user", el nombre está en una posición distinta que si el usuario existe.
     if echo "$line" | grep -q "invalid user"; then
         USER=$(echo "$line" | awk -F'invalid user ' '{print $2}' | awk '{print $1}')
         TYPE="❌ Usuario Inexistente"
@@ -21,7 +18,7 @@ tail -Fn0 "$LOG_FILE" | grep --line-buffered "Failed password" | while read line
         TYPE="⚠️ Contraseña Incorrecta"
     fi
 
-    # 3. Obtener bandera del país (opcional, requiere curl rápido)
+    # 3. Obtener bandera del país
     # Usamos ip-api.com que es gratis y rápido
     COUNTRY=$(curl -s "http://ip-api.com/line/$IP?fields=countryCode")
 
